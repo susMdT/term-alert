@@ -5,16 +5,19 @@ import time
 
 bad_files_to_search = ['testfile']
 
+ 
 def signal_alert():
+# Signals used for alerts
     signal = False
     message = 'ALERT!'
     for file in bad_files_to_search:
         if (os.path.exists(file)):
             signal = True
             message += '\n' + file + ' exists'
+
     if signal:
         return (True, message) 
-    return (False, 'nothing')
+    return (False, 'nothing detected')
 
 class Alert:
     def __init__(self):
@@ -28,7 +31,7 @@ class Alert:
         if result[0]:
             self.alert_screen(result[1])
         else:
-            self.calm_screen()
+            self.calm_screen(result[1])
         self.loop.screen.clear()
             
     def handle_input(self, key):
@@ -57,14 +60,14 @@ class Alert:
             for item in [outside, inside, streak, inside, outside]:
                 pile.contents.append((item, pile.options()))
 
-    def calm_screen(self):
+    def calm_screen(self, message):
         self.palette = [
             ('banner', '', '', '', '#ffa', '#066'),
             ('streak', '', '', '', '#066', '#066'),
             ('inside', '', '', '', '#076', '#076'),
             ('outside', '', '', '', '#0a5', '#0a5'),
             ('bg', '', '', '', '#0c5', '#0c5'),]
-        self.txt.set_text(('banner', u'nothing'))
+        self.txt.set_text(('banner', message))
         if self.loop:
             self.loop.screen.register_palette(self.palette)
             self.loop.widget = urwid.AttrMap(self.placeholder, 'bg')
@@ -78,7 +81,8 @@ class Alert:
                 pile.contents.append((item, pile.options()))
 
     def draw(self):
-        self.txt = urwid.Text(('banner', u'loading...'), align='center')
+    # The main method for starting the Alarm. 
+        self.txt = urwid.Text(('banner', u'Press any button...'), align='center')
         self.loop = urwid.MainLoop(self.placeholder, self.palette, unhandled_input=self.handle_input)
         
         self.loop.screen.set_terminal_properties(colors=256)
