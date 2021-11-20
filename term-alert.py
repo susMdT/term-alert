@@ -10,7 +10,7 @@ for root, dirs, files in os.walk("/", topdown=True): #intial indexing of everyth
     if "run" in dirs:
         dirs.remove("run")
     if "mnt" in dirs:
-        dirs.remove("mount")
+        dirs.remove("mnt")
     if "lib" in dirs:
         dirs.remove("lib")
     for name in files:
@@ -31,7 +31,7 @@ def signal_alert():
         if "run" in dirs:
             dirs.remove("run")
         if "mnt" in dirs:
-            dirs.remove("mount")
+            dirs.remove("mnt")
         if "lib" in dirs:
             dirs.remove("lib")
         for name in files:
