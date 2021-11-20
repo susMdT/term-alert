@@ -59,6 +59,7 @@ class Alert:
         self.animate_alarm = None
         self.placeholder = urwid.SolidFill()
         self.palette = []
+        self.started = False
 
     def update_screen(self):
         result = signal_alert()
@@ -72,7 +73,9 @@ class Alert:
         if key in ('q', 'Q'):
             raise urwid.ExitMainLoop()
         else:
-            self.update()
+            if not self.started:
+                self.started = True
+                self.update()
 
     def alert_screen(self, message):
         self.palette = [
